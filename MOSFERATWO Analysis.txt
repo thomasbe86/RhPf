@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 import numpy as np  # Needed for the logarithmic conversion
 
 # Load and reshape the data
-file_path = r'C:\Users\thoma\Documents\Peak Graph Data\10_Projects\MSFTU\02 DEC 2024\MOSFERATU Analysis.xlsx'
+file_path = r'C:\Users\thoma\Documents\Peak Graph Data\10_Projects\MSFTU\13 DEC 2024\MOSFERATWO Analysis.xlsx'
 data = pd.ExcelFile(file_path)
 df = data.parse('DRIVE')
 
@@ -47,7 +47,7 @@ for pot in potentiometers:
 
 # Update layout with a dropdown menu and custom tick values
 fig.update_layout(
-    title="RhPf Electronics - Mosferatu V1 - Frequency Response",
+    title="RhPf Electronics - Mosferatwo V1 - Frequency Response",
     xaxis=dict(
         title="Frequency (Hz)",
         type="log",
@@ -61,7 +61,7 @@ fig.update_layout(
                 dict(label=pot,
                      method="update",
                      args=[{"visible": visibility_mask},
-                           {"title": f"RhPf Electronics - Mosferatu V1 - Frequency Response for {pot} Knob"}])
+                           {"title": f"RhPf Electronics - Mosferatwo V1 - Frequency Response for {pot} Knob"}])
                 for pot, visibility_mask in zip(potentiometers, visibility_masks)
             ],
             direction="down",
