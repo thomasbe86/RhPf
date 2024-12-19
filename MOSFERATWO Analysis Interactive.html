@@ -20,9 +20,6 @@
             width: 50%;
             height: 90%;
         }
-        #knob-level:hover line, #knob-focus:hover line {
-            stroke: blue;
-        }
     </style>
 </head>
 <body>
@@ -126,21 +123,26 @@
             return closestLevel;
         }
 
+        function calculateCombinedCurve(level, focus) {
+            const levelData = levelPositions[level];
+            const focusData = focusPositions[focus];
+
+            return levelData.map((lvl, idx) => {
+                const combinedMagnitude = lvl + focusData[idx];
+                return 20 * Math.log10(combinedMagnitude); // Convert to dB
+            });
+        }
+
         function renderGraph(level, focus) {
+            const combinedCurve = calculateCombinedCurve(level, focus);
+
             Plotly.newPlot('graph', [
                 {
                     x: frequency,
-                    y: levelPositions[level],
+                    y: combinedCurve,
                     type: 'scatter',
                     mode: 'lines+markers',
-                    name: `Level @ ${level}%`
-                },
-                {
-                    x: frequency,
-                    y: focusPositions[focus],
-                    type: 'scatter',
-                    mode: 'lines+markers',
-                    name: `Focus @ ${focus}%`
+                    name: 'Combined Response'
                 }
             ], {
                 title: `Frequency Response - Level: ${level}% | Focus: ${focus}%`,
@@ -151,8 +153,7 @@
                     ticktext: ["20", "32", "64", "128", "256", "512", "1k", "2k", "4k", "8k", "16k", "20k"]
                 },
                 yaxis: {
-                    title: 'Magnitude (dB)',
-                    range: [-5, 30]
+                    title: 'Magnitude (dB)'
                 }
             });
         }
@@ -246,4 +247,3 @@
     </script>
 </body>
 </html>
-
